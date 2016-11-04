@@ -146,4 +146,60 @@ Por ultimo nos vamos a nuestras rutas, en la carpeta config/routes.rb y agregamo
     root to: "posts#index"
 
 
-Y listo!!! tenemos nuestra mega aplicación.
+Y listo!!! tenemos nuestra mega aplicación, por ahora dejaremos nuestra super app para configurar nuestro servidor.
+
+Asumo que tienen instalado VirtualBox y instalada nuestra image de ubuntu server.
+Estoy usando ubuntu 16.04.1 server.
+
+La configuración para conectarse via ssh a nuestro server corriendo en virtualbox, tienen que configurarlo como adaptador de puente.
+
+ ![enter image description here](https://lh3.googleusercontent.com/-q9kcT0bmgSQ/WBwuQl6rfmI/AAAAAAAAA4s/DSC2Pquk4BU_3MxCclH4yVb825uzWKbQwCLcB/s0/adaptador-puente.png "adaptador-puente.png")
+
+luego para saber cual es nuestra ip de nuestro servidor escribirmos en nuestra terminal de virtualbox  `ifconfig`
+
+![enter image description here](https://lh3.googleusercontent.com/-lyT4taUpnEE/WBwvFr_s-XI/AAAAAAAAA44/NMpsgreMm58Q7cVW2dJSVzOg1KT_pU4pQCLcB/s0/ifconfig.png "ifconfig.png")
+
+Luego entramos a nuestra terminal y nos conectamos vía shh.
+
+ssh nombre-usuario@escribimos-nuestra-ip
+el mío quedo algo así
+
+    ssh rocket@192.168.1.43
+
+   ![enter image description here](https://lh3.googleusercontent.com/-HSQ7lD5dGj0/WBwwFzRpXjI/AAAAAAAAA5I/7n2-eW1LN_cALcmn6yNHwb1NICC-XPA_QCLcB/s0/ssh.png "ssh.png")
+
+Me pedira mi contraseña. y entrare.
+
+![enter image description here](https://lh3.googleusercontent.com/-q7qErfrMy2U/WBwwcISqe8I/AAAAAAAAA5Q/uX1d0qNj1lMuo7OoyqTi4WBY17j5K0lJwCLcB/s0/conectados.png "conectados.png")
+
+Y entramos!! wooo ahora se pone bueno!!... :D
+
+*Para conectarse via ssh en windows usas **`PuTTY`**. Me acuerdo con poco éxito conectarme bien via windows, creo por falta de experiencia, pero recomiendo usar entorno linux. Es mucho mas fácil.*
+
+Primero que nada creamos un usuario deploy, antes que la caguemos usando root. :P
+
+    sudo adduser deploy
+    sudo adduser deploy sudo
+    su deploy
+El primer comando crea un usuario llamado deploy.
+El segundo de da poder sudo al usuario deploy.
+Y por ultimo `su deploy` veremos que esta todo ok nos redirigira a nuestro usuario deploy y nos pedirá la contraseña que le asignamos.
+
+Si todo sale bien estaremos con usuario deploy.  escribiremos `exit` para volver a root o el usuario que tienes asignado como root.
+
+Este paso es opcional, pero a mi me gusta no tener que meter la contraseña cada vez que me conecto con ssh a mi server.
+Para ellos me desconectare de mi servidor escribiendo de nuevo `exit` en la consola, y usaremos ssh-copy-id, esta herramienta nos permitirá conectarnos via keys a nuestro servidor sin pedirnos contraseña (esta opción es para mac, y linux, no tengo idea si existe para windows).
+
+Para instalar en mac vía brew, escribiremos en nuestra terminal `brew install ssh-copy-id`. **Ojo esto lo tenemos que hacer en nuestra maquina local no en nuestro servidor.**
+
+En linux creo que ya viene instalado.
+
+Ya instalado escribiremos en nuestra terminal
+
+    ssh-copy-id deploy@DIRECCIONIP
+en mi caso es `ssh-copy-id deploy@192.168.1.43`, me pedirá ingresar la contraseña asignada el usuario deploy de nuestro servidor, la introducimos y listo ahora me podré conectar a mi servidor sin necesidad de meter contraseña.
+
+ahora si entro a mi servidor como antes con el usuario deploy
+
+    ssh deploy@192.168.1.43
+no me pedirá contraseña!! :)
